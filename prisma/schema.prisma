@@ -10,6 +10,59 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model User {
-//   id        Int       @id @default(autoincrement())
-// }
+model User {
+  id                  Int       @id @default(autoincrement())
+  uid                 String    @unique
+  email               String    @default("")
+  username            String    @unique
+  password            String
+  phone_number        Int
+  profile_url         String    @default("")
+  birthdate           DateTime
+  firstname           String
+  lastname            String
+  verify_status       Boolean
+  location_latitude   String
+  location_longtitude String
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  created_products    Product[] @relation("created_products")
+  reserved_products   Reserve[] @relation("reserved_products")
+}
+
+model Product {
+  id                  Int     @id @default(autoincrement())
+  userId              Int     @unique
+  reservedId          Int     @unique
+  name                String  @unique
+  picture_url         String
+  description         String
+  available_time      String
+  category_id         Int
+  location_latitude   String
+  location_longtitude String
+  status              Int
+  is_reserved         Boolean
+  created_by_user     User    @relation("created_products", fields: [userId], references: [id])
+  product_order       Order[] @relation("product_order")
+  // reserved          Reserve     @relation(fields: [reservedId], references: [id])
+}
+
+model Order {
+  id         Int     @id @default(autoincrement())
+  recieverId Int
+  giverId    Int
+  status     Boolean
+
+  product_order  Product   @relation("product_order", fields: [giverId], references: [userId])
+  reserved_order Reserve[] @relation("reserved_order")
+}
+
+model Reserve {
+  id             Int   @id @default(autoincrement())
+  userId         Int
+  productId      Int
+  orderId        Int
+  reserved_order Order @relation("reserved_order", fields: [orderId], references: [id])
+  reserved_users User  @relation("reserved_products", fields: [userId], references: [id])
+}
