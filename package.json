@@ -10,6 +10,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
+    "@prisma/client": "^4.13.0",
     "buffer-from": "^1.1.2",
     "esbuild": "^0.17.19",
     "express": "^4.18.2",
@@ -19,6 +20,9 @@
     "source-map": "^0.6.1",
     "source-map-support": "^0.5.21"
   },
+  "optionalDependencies": {
+    "fsevents": "*"
+ },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsx watch main.ts"
