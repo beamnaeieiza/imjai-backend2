@@ -1,9 +1,14 @@
 import express from "express";
+let app = express();
+import verifySignupRouter from "./middleware/verifySignup";
+import { prisma } from "./utils/prisma";
+import emailVerifyRouter from "./middleware/emailVerify";
 
 console.log("hello world");
-let app = express();
 
 app.use(express.json());
+app.use("/verifySignup", verifySignupRouter);
+app.use("/emailVerify", emailVerifyRouter);
 
 app.listen(3306, () => {
   console.log("Application is running.");

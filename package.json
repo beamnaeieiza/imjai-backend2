@@ -9,20 +9,29 @@
   "name": "imjai-backend",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "commonjs",
   "dependencies": {
     "@prisma/client": "^4.13.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
     "buffer-from": "^1.1.2",
+    "cookie-session": "^2.0.0",
+    "cors": "^2.8.5",
     "esbuild": "^0.17.19",
     "express": "^4.18.2",
-    "fsevents": "^2.3.2",
     "get-tsconfig": "^4.6.0",
+    "jsonwebtoken": "^9.0.0",
+    "mysql2": "^3.3.4",
+    "nanoid": "^4.0.2",
+    "nodemailer": "^6.9.3",
     "resolve-pkg-maps": "^1.0.0",
+    "sequelize": "^6.32.0",
     "source-map": "^0.6.1",
     "source-map-support": "^0.5.21"
   },
   "optionalDependencies": {
     "fsevents": "*"
- },
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsx watch main.ts"

@@ -12,18 +12,18 @@ datasource db {
 
 model User {
   id                  Int       @id @default(autoincrement())
-  uid                 String    @unique
+  token               String
   email               String    @default("")
-  username            String    @unique
-  password            String
-  phone_number        Int
+  username            String?    @unique
+  password            String?
+  phone_number        String?
   profile_url         String    @default("")
-  birthdate           DateTime
-  firstname           String
-  lastname            String
-  verify_status       Boolean
-  location_latitude   String
-  location_longtitude String
+  birthdate           DateTime?
+  firstname           String?
+  lastname            String?
+  verify_status       Boolean?
+  location_latitude   String?
+  location_longtitude String?
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
   created_products    Product[] @relation("created_products")
@@ -59,7 +59,7 @@ model Order {
 }
 
 model Reserve {
-  id             Int   @id @default(autoincrement())
+  reserveId      Int   @id @default(autoincrement())
   userId         Int
   productId      Int
   orderId        Int
