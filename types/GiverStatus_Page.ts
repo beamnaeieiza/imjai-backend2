@@ -2,6 +2,7 @@ export type RecieverWaitingStatus_Page = {
     profile_url : string,
     firstname : string,
     lastname : string,
+    phone_number : string,
     location_lattitude : string,
     location_longttitude : string,
     product_id : string,

@@ -1,7 +1,6 @@
 import express from "express";
 import { prisma } from "../utils/prisma";
 import { loginTypeDto } from "../types/loginType";
-import { emailVerifyTypeDto } from "../types/emailVerifyType";
 import jwt from "jsonwebtoken";
 
 const loginRouter = express.Router();
@@ -22,15 +21,17 @@ loginRouter.get("/", async (req, res) => {
     console.log(result.password);
     console.log(password);
     if (result.password === password) {
-      const token = jwt.sign({ username }, "your_secret_key");
-      await prisma.user.update({
-        where: {
-          username: username,
-        },
-        data: {
-          token: token,
-        },
+      const token = jwt.sign({ username }, "your_secret_key", {
+        expiresIn: "1h",
       });
+      // await prisma.user.update({
+      //   where: {
+      //     username: username,
+      //   },
+      //   data: {
+      //     token: token,
+      //   },
+      // });
       return res.json({ token });
     } else {
       return res.status(401).send("Invalid password");

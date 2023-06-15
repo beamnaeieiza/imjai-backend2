@@ -43,19 +43,8 @@ model Product {
   location_longtitude String
   status              Int
   is_reserved         Boolean
-  created_by_user     User    @relation("created_products", fields: [userId], references: [id])
-  product_order       Order[] @relation("product_order")
-  // reserved          Reserve     @relation(fields: [reservedId], references: [id])
-}
-
-model Order {
-  id         Int     @id @default(autoincrement())
-  recieverId Int
-  giverId    Int
-  status     Boolean
-
-  product_order  Product   @relation("product_order", fields: [giverId], references: [userId])
-  reserved_order Reserve[] @relation("reserved_order")
+  created_by_user     User      @relation("created_products", fields: [userId], references: [id])
+  // reserved         Reserve   @relation(fields: [reservedId], references: [id])
 }
 
 model Reserve {
@@ -63,6 +52,7 @@ model Reserve {
   userId         Int
   productId      Int
   orderId        Int
-  reserved_order Order @relation("reserved_order", fields: [orderId], references: [id])
+  giverId        Int
+  recieverId     Int
   reserved_users User  @relation("reserved_products", fields: [userId], references: [id])
 }
