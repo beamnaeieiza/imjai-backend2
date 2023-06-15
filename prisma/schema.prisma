@@ -28,6 +28,7 @@ model User {
   updatedAt           DateTime  @updatedAt
   created_products    Product[] @relation("created_products")
   reserved_products   Reserve[] @relation("reserved_products")
+  reserveId           Int 
 }
 
 model Product {
@@ -44,15 +45,16 @@ model Product {
   status              Int
   is_reserved         Boolean
   created_by_user     User      @relation("created_products", fields: [userId], references: [id])
-  // reserved         Reserve   @relation(fields: [reservedId], references: [id])
+  // reserved            Reserve   @relation(fields: [reservedId], references: [id])
 }
 
 model Reserve {
-  reserveId      Int   @id @default(autoincrement())
+  id             Int   @id @default(autoincrement())
   userId         Int
-  productId      Int
+  productId      Int  @unique
   orderId        Int
   giverId        Int
   recieverId     Int
   reserved_users User  @relation("reserved_products", fields: [userId], references: [id])
+  // producted      Product @relation(fields: [productId], references: [id])
 }
