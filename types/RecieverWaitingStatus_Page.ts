@@ -3,12 +3,16 @@ export type RecieverWaitingStatus_PageDto = {
     firstname : string,
     lastname : string,
     phone_number : string,
-    location_lattitude : string,
-    location_longttitude : string,
+    location_latitude : string,
+    location_longtitude : string,
     id : number,
     name : string,
     giverId : number,
     reserveId : number,
     status : boolean,
     available_time: string;
+
+    //ไม่รู้
+    productId : number,
+    username: string,
 }
