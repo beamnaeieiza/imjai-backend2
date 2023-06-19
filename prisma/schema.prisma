@@ -14,7 +14,7 @@ model User {
   id                  Int       @id @default(autoincrement())
   token               String
   email               String    @default("")
-  username            String?    @unique
+  username            String?   @unique
   password            String?
   phone_number        String?
   profile_url         String    @default("")
@@ -28,33 +28,37 @@ model User {
   updatedAt           DateTime  @updatedAt
   created_products    Product[] @relation("created_products")
   reserved_products   Reserve[] @relation("reserved_products")
-  reserveId           Int 
+  reserveId           Int
 }
 
 model Product {
-  id                  Int     @id @default(autoincrement())
-  userId              Int     @unique
-  reservedId          Int     @unique
-  name                String  @unique
+  id                  Int      @id @default(autoincrement())
+  userId              Int      @unique
+  // reservedId          Int     @unique
+  name                String   @unique
   picture_url         String
   description         String
   available_time      String
   category_id         Int
   location_latitude   String
   location_longtitude String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
   status              Int
   is_reserved         Boolean
-  created_by_user     User      @relation("created_products", fields: [userId], references: [id])
-  reserved            Reserve   @relation(fields: [reservedId], references: [id])
+  created_by_user     User     @relation("created_products", fields: [userId], references: [id])
+  reserved            Reserve?
 }
 
 model Reserve {
-  id             Int   @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   userId         Int
-  productId      Int  
-  orderId        Int
-  giverId        Int
-  recieverId     Int
-  reserved_users User  @relation("reserved_products", fields: [userId], references: [id])
-  producted      Product @relation(fields: [productId], references: [id])
+  productId      Int      @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  // orderId        Int
+  // giverId        Int
+  // recieverId     Int
+  reserved_users User     @relation("reserved_products", fields: [userId], references: [id])
+  product        Product  @relation(fields: [productId], references: [id])
 }
