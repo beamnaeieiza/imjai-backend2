@@ -28,7 +28,7 @@ model User {
   updatedAt           DateTime  @updatedAt
   created_products    Product[] @relation("created_products")
   reserved_products   Reserve[] @relation("reserved_products")
-  reserveId           Int
+  reserveId           Int?
 }
 
 model Product {
@@ -49,7 +49,7 @@ model Product {
   created_by_user     User     @relation("created_products", fields: [userId], references: [id])
   reserved            Reserve?
 }
-
+  
 model Reserve {
   id             Int      @id @default(autoincrement())
   userId         Int

@@ -1,14 +1,12 @@
-import { PhoneNumber } from './../node_modules/twilio/lib/interfaces.d';
 import express from "express";
 import { prisma } from "../utils/prisma";
 import { RecieverWaitingStatus_PageDto } from "../types/RecieverWaitingStatus_Page";
-import twilio from 'twilio';
 
 const reserveRecieverRouter = express.Router();
 
 //Get user profile just name, pics, phone number, available time
 reserveRecieverRouter.get("/profile", async (req, res) => {
-  const { giverId } = req.body as RecieverWaitingStatus_PageDto;
+  const { id, available_time, giverId } = req.body as RecieverWaitingStatus_PageDto;
 
   //Get profile pics, firstname, lastname
   try {
@@ -38,21 +36,31 @@ reserveRecieverRouter.get("/profile", async (req, res) => {
     res.status(500).send("Server Error");
   }
 
-  //Make a call
-  
-
-  //Get available time
+  //Get google map API ยังไม่เสร็จ
   try {
-    const time = await prisma.reserve.findFirst({
+    const map = await prisma.reserve.findFirst({
       where: {
         id: giverId,
       },
-      select: {
-        reserved_users: {
-          select: {
-            producted
+      include:{
+        reserved_users: true,
       },
-    )};
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+
+  //Get available time
+  try {
+    const time = await prisma.product.findFirst({
+      where: {
+        id: id,
+      },
+      select:{
+        available_time: true,
+      },
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");

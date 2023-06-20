@@ -40,6 +40,7 @@ verifySignupRouter.post("/", async (req, res) => {
       phone_number,
       token,
       verify_status: false,
+      reserveId: 0,
     },
   });
   console.log(Info);
