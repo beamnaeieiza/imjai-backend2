@@ -5,10 +5,8 @@ export type RecieverWaitingStatus_PageDto = {
     phone_number : string,
     location_latitude : string,
     location_longtitude : string,
-    id : number,
+    userId : number,
     name : string,
-    giverId : number,
-    reserveId : number,
     status : boolean,
     available_time: string;
 

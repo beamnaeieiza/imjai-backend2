@@ -44,7 +44,7 @@ verifySignupRouter.post("/", async (req, res) => {
     },
   });
   console.log(Info);
-
+ 
   const nodemailer = require("nodemailer");
   let testAccount = nodemailer.createTestAccount();
 
