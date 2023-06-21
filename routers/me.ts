@@ -4,7 +4,7 @@ import { profileDto } from "../types/profile";
 const meRouter = express.Router();
 
 //update profile
-meRouter.post("/me", async (req, res) => {
+meRouter.post("/update", async (req, res) => {
   const data = req.body as profileDto;
   const userId = (req as any).user.id;
   const user = await prisma.user.findFirst({
@@ -28,3 +28,33 @@ meRouter.post("/me", async (req, res) => {
   });
   return res.send(updatedUser);
 });
+
+//get profile
+meRouter.get("/", async (req, res) => {
+  const userId = (req as any).user.id;
+  try {
+    const userProfile = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    return res.send({
+      id: userProfile!.id,
+      // uid: userProfile!.uid,
+      profile_url: userProfile!.profile_url,
+      firstname: userProfile!.firstname,
+      lastname: userProfile!.lastname,
+      email: userProfile!.email,
+      phone_number: userProfile!.phone_number,
+      birthdate: userProfile!.birthdate,
+      createdAt: new Date(userProfile!.createdAt).toISOString(),
+      updatedAt: new Date(userProfile!.updatedAt).toISOString(),
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+});
+
+export default meRouter;

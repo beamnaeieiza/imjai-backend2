@@ -3,6 +3,6 @@ export type profileDto = {
   firstname: string;
   lastname: string;
   email: string;
-  phone_number: number;
+  phone_number: string;
   birthdate: string;
 };
