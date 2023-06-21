@@ -17,7 +17,7 @@ productRouter.post("/", async (req, res) => {
     data: {
       created_products: {
         create: {
-          reservedId: data.reserve_id,
+          // reservedId: data.reserve_id,
           name: data.product_name,
           picture_url: data.product_picture,
           description: data.product_description,
@@ -159,9 +159,9 @@ productRouter.post("/:product_id/reserve", async (req, res) => {
     data: {
       userId: userId,
       productId: productId,
-      orderId: orderId,
-      giverId: giverId,
-      recieverId: receiverId,
+      // orderId: orderId,
+      // giverId: giverId,
+      // recieverId: receiverId,
     },
   });
   return res.send(reservation);

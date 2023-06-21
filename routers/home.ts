@@ -15,7 +15,7 @@ homeRouter.get("/me", async (req, res) => {
 
     return res.send({
       id: userProfile!.id,
-      uid: userProfile!.uid,
+      // uid: userProfile!.uid,
       profile_url: userProfile!.profile_url,
       firstname: userProfile!.firstname,
       lastname: userProfile!.lastname,
