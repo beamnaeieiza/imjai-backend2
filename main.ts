@@ -7,6 +7,7 @@ import loginRouter from "./middleware/login";
 import reserveRecieverRouter from "./routers/reserveReciever";
 import productRouter from "./routers/product";
 import homeRouter from "./routers/home";
+import meRouter from "./routers/me";
 
 console.log("hello world");
 
@@ -16,7 +17,8 @@ app.use("/emailVerify", emailVerifyRouter);
 app.use("/login", loginRouter);
 app.use("/reserveReciever", reserveRecieverRouter);
 app.use("/products", productRouter);
-app.use("/home",homeRouter);
+app.use("/home", homeRouter);
+app.use("/me", meRouter);
 
 app.listen(3306, () => {
   console.log("Application is running.");
