@@ -24,14 +24,6 @@ loginRouter.get("/", async (req, res) => {
       const token = jwt.sign({ username }, "your_secret_key", {
         expiresIn: "1h",
       });
-      // await prisma.user.update({
-      //   where: {
-      //     username: username,
-      //   },
-      //   data: {
-      //     token: token,
-      //   },
-      // });
       return res.json({ token });
     } else {
       return res.status(401).send("Invalid password");

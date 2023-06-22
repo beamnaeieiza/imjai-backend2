@@ -1,14 +1,16 @@
-export type RecieverWaitingStatus_Page = {
+export type GiverStatus_PageDto = {
     profile_url : string,
     firstname : string,
     lastname : string,
     phone_number : string,
-    location_lattitude : string,
-    location_longttitude : string,
-    product_id : string,
-    product_name : string,
-    recieverId : string,
-    reserveId : string,
+    location_latitude : string,
+    location_longtitude : string,
+    userId : number,
+    name : string,
     status : boolean,
     available_time: string;
+
+    //ไม่รู้
+    productId : number,
+    username: string,
 }
