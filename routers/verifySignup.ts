@@ -6,7 +6,7 @@ import { RegisterDto } from "../types/Register";
 
 const verifySignupRouter = express.Router();
 verifySignupRouter.post("/", async (req, res) => {
-  const { email, username, password, phone_number } = req.body as RegisterDto;
+  const { email, username, password, phone_number, id } = req.body as RegisterDto;
   //   let phone_number as string;
   const token = (Math.random() + 1).toString(36).substring(7);
   console.log("random", token);
@@ -41,8 +41,10 @@ verifySignupRouter.post("/", async (req, res) => {
       token,
       verify_status: false,
       reserveId: 0,
+      id,
     },
   });
+  return res.send(Info);
   console.log(Info);
  
   const nodemailer = require("nodemailer");

@@ -7,7 +7,7 @@ const productRouter = express.Router();
 
 // Create post for products
 productRouter.post("/", async (req, res) => {
-  const userId = 1;
+  const userId = (req as any).user.userId;
   const data = req.body as PostProductDto;
 
   const result = await prisma.user.update({

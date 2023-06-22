@@ -6,12 +6,14 @@ import jwt from "jsonwebtoken";
 const loginRouter = express.Router();
 
 loginRouter.get("/", async (req, res) => {
+  // const userId = (req as any).user.id;
   const { username, password } = req.body as loginTypeDto;
   const result = await prisma.user.findFirst({
     where: {
       username: username,
     },
     select: {
+      id: true,
       password: true,
       token: true,
     },
@@ -21,7 +23,7 @@ loginRouter.get("/", async (req, res) => {
     console.log(result.password);
     console.log(password);
     if (result.password === password) {
-      const token = jwt.sign({ username }, "your_secret_key", {
+      const token = jwt.sign({ username: username, userId: result.id }, "imjai1212312121", {
         expiresIn: "1h",
       });
       return res.json({ token });
