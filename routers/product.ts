@@ -7,7 +7,7 @@ const productRouter = express.Router();
 
 // Create post for products
 productRouter.post("/", async (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = 1;
   const data = req.body as PostProductDto;
 
   const result = await prisma.user.update({
@@ -35,7 +35,7 @@ productRouter.post("/", async (req, res) => {
 });
 
 // Get product details
-productRouter.get("/:product_id", async (req, res) => {
+productRouter.get("/products/:product_id", async (req, res) => {
   const productId = parseInt(req.params.product_id);
 
   const product = await prisma.product.findUnique({
@@ -85,8 +85,8 @@ productRouter.get("/:product_id", async (req, res) => {
 });
 
 // List all products that user posted
-productRouter.get("/", async (req, res) => {
-  const userId = (req as any).user.id;
+productRouter.get("/getproducts", async (req, res) => {
+  const userId = 1;
 
   const products = await prisma.user.findUnique({
     where: {
@@ -100,15 +100,19 @@ productRouter.get("/", async (req, res) => {
 });
 
 // List all order products that user reserved
-productRouter.get("/", async (req, res) => {
-  const userId = (req as any).user.id;
+productRouter.get("/getreserves", async (req, res) => {
+  const userId = 1;
 
   const reserves = await prisma.user.findUnique({
     where: {
       id: userId,
     },
     select: {
-      reserved_products: true,
+      reserved_products: {
+        include: {
+          reserved_product: true,
+        },
+      },
     },
   });
   return res.send(reserves);
@@ -117,12 +121,12 @@ productRouter.get("/", async (req, res) => {
 // Delete a product that user post
 productRouter.delete("/:product_id", async (req, res) => {
   const productId = parseInt(req.params.product_id);
-  const userId = (req as any).user.id;
+  const userId = 1;
 
   const deleteProduct = await prisma.product.delete({
     where: {
       id: productId,
-      userId: userId,
+      // userId: userId,
     },
     select: {
       created_by_user: true,
@@ -140,7 +144,7 @@ productRouter.delete("/:product_id", async (req, res) => {
 
 // Reserve an Order
 productRouter.post("/:product_id/reserve", async (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = 1;
   const productId = parseInt(req.params.product_id);
   const orderId = +req.body.orderId;
   const giverId = +req.body.giverId;
@@ -155,15 +159,38 @@ productRouter.post("/:product_id/reserve", async (req, res) => {
     return res.json({ error: "Sorry! Can not found the order." });
   }
 
-  const reservation = await prisma.reserve.create({
+  const reservation = await prisma.user.update({
+    where: {
+      id: userId,
+    },
     data: {
-      userId: userId,
-      productId: productId,
-      // orderId: orderId,
-      // giverId: giverId,
-      // recieverId: receiverId,
+      reserved_products: {
+        create: {
+          // reservedId: data.reserve_id,
+          id: productId,
+        },
+      },
     },
   });
+
+  const productstatus = await prisma.product.update({
+    where: {
+      id: productId,
+    },
+    data: {
+      is_reserved: true,
+    },
+  });
+  // const reservation = await prisma.reserve.create({
+  //   data: {
+  //     id: productId,
+  //     userId: userId,
+  //     // productId: productId,
+  //     // orderId: orderId,
+  //     // giverId: giverId,
+  //     // recieverId: receiverId,
+  //   },
+  // });
   return res.send(reservation);
 });
 
