@@ -33,7 +33,7 @@ model User {
 
 model Product {
   id                  Int      @id @default(autoincrement())
-  userId              Int      @unique
+  userId              Int
   // reservedId          Int     @unique
   name                String   @unique
   picture_url         String
