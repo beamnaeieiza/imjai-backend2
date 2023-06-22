@@ -1,4 +1,4 @@
 export type locationDto = {
-  location_lattitude: string;
+  location_latitude: string;
   location_longtitude: string;
 };
