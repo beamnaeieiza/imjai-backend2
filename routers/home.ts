@@ -5,7 +5,7 @@ const homeRouter = express.Router();
 
 //
 homeRouter.get("/me", async (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = 1;
   try {
     const userProfile = await prisma.user.findUnique({
       where: {
@@ -33,7 +33,7 @@ homeRouter.get("/me", async (req, res) => {
 
 // update location
 homeRouter.post("/update", async (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = 1;
   const data = req.body as locationDto;
   //const location_lattitude = req.body.location_lattitude;
   //const location_longtitude = req.body.location_longtitude;
@@ -43,7 +43,7 @@ homeRouter.post("/update", async (req, res) => {
       id: userId,
     },
     data: {
-      location_latitude: data.location_lattitude,
+      location_latitude: data.location_latitude,
       location_longtitude: data.location_longtitude,
     },
   });

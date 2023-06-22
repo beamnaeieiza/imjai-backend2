@@ -1,5 +1,5 @@
 export type PostProductDto = {
-  reserve_id: number;
+  // reserve_id: number;
   product_name: string;
   product_picture: string;
   product_description: string;
