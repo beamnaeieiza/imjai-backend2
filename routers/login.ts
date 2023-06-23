@@ -23,9 +23,13 @@ loginRouter.get("/", async (req, res) => {
     console.log(result.password);
     console.log(password);
     if (result.password === password) {
-      const token = jwt.sign({ username: username, userId: result.id }, "imjai1212312121", {
-        expiresIn: "1h",
-      });
+      const token = jwt.sign(
+        { username: username, userId: result.id },
+        "imjai1212312121",
+        {
+          expiresIn: "1h",
+        }
+      );
       return res.json({ token });
     } else {
       return res.status(401).send("Invalid password");

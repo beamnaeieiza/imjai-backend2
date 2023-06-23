@@ -73,7 +73,7 @@ productRouter.get("/getproducts", async (req, res) => {
 
 // List all order products that user reserved
 productRouter.get("/getreserves", async (req, res) => {
-  const userId = 1;
+  const userId = (req as any).user.userId;
 
   const reserves = await prisma.user.findUnique({
     where: {
@@ -116,7 +116,7 @@ productRouter.delete("/:product_id", async (req, res) => {
 
 // Reserve an Order
 productRouter.post("/:product_id/reserve", async (req, res) => {
-  const userId = 1;
+  const userId = (req as any).user.userId;
   const productId = parseInt(req.params.product_id);
   const orderId = +req.body.orderId;
   const giverId = +req.body.giverId;
