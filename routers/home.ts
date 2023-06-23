@@ -5,7 +5,7 @@ const homeRouter = express.Router();
 
 //
 homeRouter.get("/me", async (req, res) => {
-  const userId = 1;
+  const userId = (req as any).user.userId;
   try {
     const userProfile = await prisma.user.findUnique({
       where: {

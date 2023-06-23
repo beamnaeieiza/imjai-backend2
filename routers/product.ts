@@ -57,7 +57,7 @@ productRouter.get("/products/:product_id", async (req, res) => {
 
 // List all products that user posted
 productRouter.get("/getproducts", async (req, res) => {
-  const userId = 1;
+  const userId = (req as any).user.userId;
 
   const products = await prisma.user.findUnique({
     where: {
@@ -150,6 +150,7 @@ productRouter.post("/:product_id/reserve", async (req, res) => {
       id: productId,
     },
     data: {
+      status: 1,
       is_reserved: true,
     },
   });

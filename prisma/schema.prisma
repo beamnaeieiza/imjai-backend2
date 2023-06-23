@@ -22,8 +22,8 @@ model User {
   firstname           String?
   lastname            String?
   verify_status       Boolean?
-  location_latitude   String?
-  location_longtitude String?
+  location_latitude   String?   @default("")
+  location_longtitude String?   @default("")
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
   created_products    Product[] @relation("created_products")

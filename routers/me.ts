@@ -31,7 +31,7 @@ meRouter.post("/update", async (req, res) => {
 
 //get profile
 meRouter.get("/", async (req, res) => {
-  const userId = 1;
+  const userId = (req as any).user.userId;
   try {
     const userProfile = await prisma.user.findUnique({
       where: {
