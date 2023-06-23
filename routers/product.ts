@@ -25,7 +25,7 @@ productRouter.post("/", async (req, res) => {
           category_id: data.category_id,
           location_latitude: data.locate_latitude,
           location_longtitude: data.locate_longtitude,
-          status: data.status,
+          status: 0,
           is_reserved: data.reserved_yet,
         },
       },
