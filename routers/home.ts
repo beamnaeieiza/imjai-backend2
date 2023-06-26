@@ -52,7 +52,7 @@ homeRouter.post("/update", async (req, res) => {
 
 // get current location
 homeRouter.get("/location", async (req, res) => {
-  const userId = (req as any).user.id;
+  const userId = (req as any).user.userId;
   const currentLocation = await prisma.user.findUnique({
     where: {
       id: userId,
