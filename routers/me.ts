@@ -50,6 +50,7 @@ meRouter.get("/", async (req, res) => {
       birthdate: userProfile!.birthdate,
       createdAt: new Date(userProfile!.createdAt).toISOString(),
       updatedAt: new Date(userProfile!.updatedAt).toISOString(),
+      
     });
   } catch (err) {
     console.error(err);

@@ -103,13 +103,6 @@ productRouter.delete("/:product_id", async (req, res) => {
     select: {
       created_by_user: true,
     },
-    //    data: {
-    //       product_order: {
-    //         disconnect: {
-    //             id: productId,
-    //         },
-    //       },
-    //    },
   });
   return res.send(deleteProduct);
 });
@@ -118,34 +111,38 @@ productRouter.delete("/:product_id", async (req, res) => {
 productRouter.post("/:product_id/reserve", async (req, res) => {
   const userId = (req as any).user.userId;
   const productId = parseInt(req.params.product_id);
-  const orderId = +req.body.orderId;
-  const giverId = +req.body.giverId;
-  const receiverId = +req.body.recieverId;
 
-  const donated = await prisma.product.findUnique({
+  try{
+    const donated = await prisma.product.findUnique({
     where: {
       id: productId,
     },
   });
-  if (!donated) {
-    return res.json({ error: "Sorry! Can not found the order." });
+  } catch (err) {
+    console.error(err);
+    return res.status(400).send("Sorry! Can not found the order.");
   }
 
-  const reservation = await prisma.user.update({
+  try{
+    const reservation = await prisma.user.update({
     where: {
       id: userId,
     },
     data: {
       reserved_products: {
         create: {
-          // reservedId: data.reserve_id,
           id: productId,
         },
       },
     },
   });
+  } catch (err) {
+  console.error(err);
+    return res.status(400).send("Sorry! This product has been reserved.");
+  }
 
-  const productstatus = await prisma.product.update({
+  try{
+    const productstatus = await prisma.product.update({
     where: {
       id: productId,
     },
@@ -154,17 +151,12 @@ productRouter.post("/:product_id/reserve", async (req, res) => {
       is_reserved: true,
     },
   });
-  // const reservation = await prisma.reserve.create({
-  //   data: {
-  //     id: productId,
-  //     userId: userId,
-  //     // productId: productId,
-  //     // orderId: orderId,
-  //     // giverId: giverId,
-  //     // recieverId: receiverId,
-  //   },
-  // });
-  return res.send(reservation);
+  } catch (err) {
+  console.error(err);
+    return res.status(400).send("Sorry! Can not update the order status.");
+  }
+
+  //return res.send(reservation);
 });
 
 export default productRouter;
