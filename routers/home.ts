@@ -33,7 +33,7 @@ homeRouter.get("/me", async (req, res) => {
 
 // update location
 homeRouter.post("/update", async (req, res) => {
-  const userId = 1;
+  const userId = (req as any).user.userId;
   const data = req.body as locationDto;
   //const location_lattitude = req.body.location_lattitude;
   //const location_longtitude = req.body.location_longtitude;

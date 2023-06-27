@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -26,15 +23,14 @@ model User {
   location_longtitude String?   @default("")
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
+  reserveId           Int?
   created_products    Product[] @relation("created_products")
   reserved_products   Reserve[] @relation("reserved_products")
-  reserveId           Int?
 }
 
 model Product {
   id                  Int      @id @default(autoincrement())
   userId              Int
-  // reservedId          Int     @unique
   name                String   @unique
   picture_url         String
   description         String
@@ -48,18 +44,17 @@ model Product {
   is_reserved         Boolean
   created_by_user     User     @relation("created_products", fields: [userId], references: [id])
   reserved            Reserve?
+
+  @@index([userId], map: "Product_userId_fkey")
 }
 
 model Reserve {
   id               Int      @id
   userId           Int
-  // productId      Int      @unique
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
-  // orderId        Int
-  // giverId        Int
-  // recieverId     Int
-  reserved_users   User     @relation("reserved_products", fields: [userId], references: [id])
-  // product        Product  @relation(fields: [productId], references: [id])
   reserved_product Product  @relation(fields: [id], references: [id])
+  reserved_users   User     @relation("reserved_products", fields: [userId], references: [id])
+
+  @@index([userId], map: "Reserve_userId_fkey")
 }

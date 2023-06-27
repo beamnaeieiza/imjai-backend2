@@ -4,7 +4,7 @@ export type PostProductDto = {
   product_picture: string;
   product_description: string;
   product_time: string;
-  category_id: number;
+  category_id: string;
   locate_latitude: string;
   locate_longtitude: string;
   status: number;

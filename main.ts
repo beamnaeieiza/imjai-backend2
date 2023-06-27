@@ -9,6 +9,7 @@ import productRouter from "./routers/product";
 import homeRouter from "./routers/home";
 import meRouter from "./routers/me";
 import sessionMiddleware from "./middlewares/session";
+import imageRouter from "./routers/image";
 
 console.log("hello world");
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use("/verifySignup", verifySignupRouter);
 app.use("/emailVerify", emailVerifyRouter);
 app.use("/login", loginRouter);
+app.use("/image", sessionMiddleware , imageRouter);
 app.use("/reserveReciever", sessionMiddleware, reserveRecieverRouter);
 app.use("/products", sessionMiddleware, productRouter);
 app.use("/home", sessionMiddleware, homeRouter);

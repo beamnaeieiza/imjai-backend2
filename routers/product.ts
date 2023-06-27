@@ -6,33 +6,33 @@ import { PostProductDetailsDto } from "../types/post_product_details";
 const productRouter = express.Router();
 
 // Create post for products
-productRouter.post("/", async (req, res) => {
-  const userId = (req as any).user.userId;
-  const data = req.body as PostProductDto;
+// productRouter.post("/", async (req, res) => {
+//   const userId = (req as any).user.userId;
+//   const data = req.body as PostProductDto;
 
-  const result = await prisma.user.update({
-    where: {
-      id: userId,
-    },
-    data: {
-      created_products: {
-        create: {
-          // reservedId: data.reserve_id,
-          name: data.product_name,
-          picture_url: data.product_picture,
-          description: data.product_description,
-          available_time: data.product_time,
-          category_id: data.category_id,
-          location_latitude: data.locate_latitude,
-          location_longtitude: data.locate_longtitude,
-          status: 0,
-          is_reserved: data.reserved_yet,
-        },
-      },
-    },
-  });
-  return res.send(result);
-});
+//   const result = await prisma.user.update({
+//     where: {
+//       id: userId,
+//     },
+//     data: {
+//       created_products: {
+//         create: {
+//           // reservedId: data.reserve_id,
+//           name: data.product_name,
+//           picture_url: data.product_picture,
+//           description: data.product_description,
+//           available_time: data.product_time,
+//           category_id: data.category_id,
+//           location_latitude: data.locate_latitude,
+//           location_longtitude: data.locate_longtitude,
+//           status: 0,
+//           is_reserved: data.reserved_yet,
+//         },
+//       },
+//     },
+//   });
+//   return res.send(result);
+// });
 
 // Get product & reserved user details details
 productRouter.get("/products/:product_id", async (req, res) => {
