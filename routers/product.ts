@@ -100,6 +100,7 @@ productRouter.get("/getreserves", async (req, res) => {
               created_by_user: true,
             },
           },
+          reserved_users: true,
         },
       },
     },

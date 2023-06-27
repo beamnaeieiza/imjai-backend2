@@ -196,6 +196,7 @@ reserveRecieverRouter.post("/reserves/cancel/:product_id", async (req, res) => {
     },
     data: {
       is_reserved: false,
+      status: 0,
     },
   });
   if (!product) {
