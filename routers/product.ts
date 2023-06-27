@@ -31,10 +31,10 @@ productRouter.post("/", async (req, res) => {
       },
     },
   });
-  return res.send("Created product complete!");
+  return res.send(result);
 });
 
-// Get product details
+// Get product & reserved user details details
 productRouter.get("/products/:product_id", async (req, res) => {
   const productId = parseInt(req.params.product_id);
 
@@ -44,6 +44,11 @@ productRouter.get("/products/:product_id", async (req, res) => {
     },
     include: {
       created_by_user: true,
+      reserved: {
+        select: {
+          reserved_users: true,
+        },
+      },
     },
   });
   if (!product) {
@@ -64,7 +69,15 @@ productRouter.get("/getproducts", async (req, res) => {
       id: userId,
     },
     select: {
-      created_products: true,
+      created_products: {
+        include: {
+          reserved: {
+            select: {
+              reserved_users: true,
+            },
+          },
+        },
+      },
     },
   });
   console.log("test");
@@ -82,12 +95,32 @@ productRouter.get("/getreserves", async (req, res) => {
     select: {
       reserved_products: {
         include: {
-          reserved_product: true,
+          reserved_product: {
+            include: {
+              created_by_user: true,
+            },
+          },
         },
       },
     },
   });
   return res.send(reserves);
+});
+
+//Get product location
+productRouter.get("/location/:product_id", async (req, res) => {
+  const userId = (req as any).user.userId;
+  const productId = parseInt(req.params.product_id);
+  const currentLocation = await prisma.product.findUnique({
+    where: {
+      id: productId,
+    },
+    select: {
+      location_latitude: true,
+      location_longtitude: true,
+    },
+  });
+  return res.send(currentLocation);
 });
 
 // Delete a product that user post
@@ -108,55 +141,82 @@ productRouter.delete("/:product_id", async (req, res) => {
 });
 
 // Reserve an Order
-productRouter.post("/:product_id/reserve", async (req, res) => {
+productRouter.post("/reserve/:product_id", async (req, res) => {
   const userId = (req as any).user.userId;
   const productId = parseInt(req.params.product_id);
 
-  try{
+  try {
     const donated = await prisma.product.findUnique({
-    where: {
-      id: productId,
-    },
-  });
+      where: {
+        id: productId,
+      },
+    });
   } catch (err) {
     console.error(err);
     return res.status(400).send("Sorry! Can not found the order.");
   }
 
-  try{
+  try {
     const reservation = await prisma.user.update({
-    where: {
-      id: userId,
-    },
-    data: {
-      reserved_products: {
-        create: {
-          id: productId,
+      where: {
+        id: userId,
+      },
+      data: {
+        reserved_products: {
+          create: {
+            id: productId,
+          },
         },
       },
-    },
-  });
+    });
+    // return res.send(reservation);
   } catch (err) {
-  console.error(err);
-    return res.status(400).send("Sorry! This product has been reserved.");
+    console.error(err);
+    // return res.status(400).send("Sorry! This product has been reserved.");
   }
 
-  try{
+  try {
     const productstatus = await prisma.product.update({
-    where: {
-      id: productId,
-    },
-    data: {
-      status: 1,
-      is_reserved: true,
-    },
-  });
+      where: {
+        id: productId,
+      },
+      data: {
+        status: 1,
+        is_reserved: true,
+      },
+    });
+    return res.send(productstatus);
   } catch (err) {
-  console.error(err);
+    console.error(err);
     return res.status(400).send("Sorry! Can not update the order status.");
   }
 
   //return res.send(reservation);
 });
+
+// // Get reserve details
+// productRouter.get("/products/:reserve_id", async (req, res) => {
+//   const reserveId = parseInt(req.params.reserve_id);
+
+//   const product = await prisma.product.findUnique({
+//     where: {
+//       id: reserveId,
+//     },
+//     include: {
+//       reserved : {
+//         include: {
+//           reserved_users
+//         }
+//       }
+//     },
+//   });
+//   if (!product) {
+//     return res.json({ error: "Product not found." });
+//   }
+
+//   return res.send({
+//     product,
+//   });
+// });
 
 export default productRouter;

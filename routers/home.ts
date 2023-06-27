@@ -67,9 +67,18 @@ homeRouter.get("/location", async (req, res) => {
 
 //list all products
 homeRouter.get("/list", async (req, res) => {
+  const userId = (req as any).user.userId;
   const productList = await prisma.product.findMany({
     include: {
       created_by_user: true,
+    },
+    where: {
+      is_reserved: false,
+      NOT: {
+        created_by_user: {
+          id: userId,
+        },
+      },
     },
   });
 
