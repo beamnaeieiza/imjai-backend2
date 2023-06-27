@@ -10,6 +10,7 @@ import homeRouter from "./routers/home";
 import meRouter from "./routers/me";
 import sessionMiddleware from "./middlewares/session";
 import imageRouter from "./routers/image";
+import resendEmailRouter from "./routers/resendEmail";
 
 console.log("hello world");
 
@@ -22,6 +23,7 @@ app.use("/reserveReciever", sessionMiddleware, reserveRecieverRouter);
 app.use("/products", sessionMiddleware, productRouter);
 app.use("/home", sessionMiddleware, homeRouter);
 app.use("/me", sessionMiddleware, meRouter);
+app.use("/resendEmail", resendEmailRouter);
 
 app.listen(3306, () => {
   console.log("Application is running.");

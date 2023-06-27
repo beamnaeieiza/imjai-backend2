@@ -91,7 +91,7 @@ verifySignupRouter.post("/", async (req, res) => {
     return res.send("Register fail !");
   } else {
     console.log(Info);
-    return res.send("Register complete !");
+    return res.send(Info);
   }
 });
 
