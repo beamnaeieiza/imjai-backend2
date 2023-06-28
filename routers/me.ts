@@ -6,7 +6,7 @@ const meRouter = express.Router();
 //update profile
 meRouter.post("/update", async (req, res) => {
   const data = req.body as profileDto;
-  const userId = Number((req as any).user.id);
+  const userId = Number((req as any).user.userId);
   const user = await prisma.user.findFirst({
     where: {
       id: userId,
