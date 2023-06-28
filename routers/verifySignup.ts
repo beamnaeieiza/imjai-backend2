@@ -35,7 +35,7 @@ verifySignupRouter.post("/", async (req, res) => {
       },
     });
     if (user) {
-      return res.status(400).send("Email already in use !");
+      return res.status(401).send("Email already in use !");
     }
   } catch (error) {
     return res.status(500).send("Unable to validate username !");
@@ -91,7 +91,7 @@ verifySignupRouter.post("/", async (req, res) => {
     return res.send("Register fail !");
   } else {
     console.log(Info);
-    return res.send(Info);
+    return res.send("Register Success!");
   }
 });
 

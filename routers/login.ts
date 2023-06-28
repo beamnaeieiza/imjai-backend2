@@ -30,7 +30,8 @@ loginRouter.get("/", async (req, res) => {
           expiresIn: "1h",
         }
       );
-      return res.json({ token });
+      return res.status(200).json({ token });
+      // res.json({ token });
     } else {
       return res.status(401).send("Invalid password");
     }
