@@ -87,11 +87,18 @@ homeRouter.get("/list", async (req, res) => {
 
 //Each Catagories
 homeRouter.get("/:category_id", async (req, res) => {
+  const userId = (req as any).user.userId;
   const categoryId = +req.params.category_id;
 
   const productList = await prisma.product.findMany({
     where: {
       category_id: categoryId,
+      is_reserved: false,
+      NOT: {
+        created_by_user: {
+          id: userId,
+        },
+      },
     },
     include: {
       created_by_user: true,
